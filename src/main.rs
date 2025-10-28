@@ -55,3 +55,12 @@ fn search_and_replace(path: &str, search: &str, replace: &str) -> io::Result {
     
     Ok(())
 }
+
+fn read_with_line_numbers(path: &str) -> io::Result<()> {
+    let content = fs::read_to_string(path)?;
+    for (i, line) in content.lines().enumerate() {
+        println!("{:4}", i+1, line);
+    }
+
+    Ok(())
+}
