@@ -7,9 +7,19 @@ fn main() -> io::Result<()> {
     let binding = String::from("file.txt");
     let file_name = args.get(1).unwrap_or(&binding);
 
-    let content = read_or_create_file(file_name)?;
+    let mut content = read_or_create_file(file_name)?;
 
     println!("The contents of the file are: {content:?}");
+
+    println!("Enter text to append(or leave empty to skip)");
+    let mut input: String = String::new();
+    io::stdin().read_line(&mut input)?;
+
+    if !input.trim().is_empty() {
+        content.push_str(&input);
+        fs::write("file_name", content)?;
+        println!("Content saved!");
+    }
 
     Ok(())
 }
