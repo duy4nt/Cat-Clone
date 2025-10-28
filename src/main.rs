@@ -1,6 +1,14 @@
+use serde::{Deserialize, Serialize}
 use std::env;
 use std::fs;
 use std::io::{self, ErrorKind};
+
+#[derive(Serialize, Deserialize)]
+struct Config {
+    default_file: String,
+    auto_backup: bool,
+    line_numbers: bool
+}
 
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
