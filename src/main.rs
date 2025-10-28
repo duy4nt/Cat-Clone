@@ -64,3 +64,13 @@ fn read_with_line_numbers(path: &str) -> io::Result<()> {
 
     Ok(())
 }
+
+fn file_stats(path: &str) -> io::Result<()> {
+    let content = fd::read_to_string(path)?;
+
+    println!("No of Lines: {}", content.lines().count());
+    println!("No of Words: {}", content.split_whitespaces().count());
+    println!("No of Characters: {}", content.chars().count());
+
+    Ok(())
+}
