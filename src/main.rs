@@ -1,23 +1,26 @@
-use std::fs::File;
-use std::io::ErrorKind;
-use std::io::prelude::*;
+use std::env;
+use std::fs;
+use std::io::{self, ErrorKind};
 
-fn main() {
-    let file_result = File::open("file.txt");
+fn main() -> io::Result<()> {
+    let args: Vec<String> = env::args().collect();
+    let binding = String::from("file.txt");
+    let file_name = args.get(1).unwrap_or(&binding);
 
-    let mut file = match file_result {
-        Ok(file) => file,
-        Err(error) => match error.kind() {
-            ErrorKind::NotFound => match File::create("file.txt") {
-                Ok(fc) => fc,
-                Err(e) => panic!("Problem creating the file: {e:?}"),
-            },
-            other_error => {
-                panic!("Problem opening the file: {other_error:?}");
-            }
-        },
-    };
-    let mut content = String::new();
-    file.read_to_string(&mut content).expect("Problem in reading the file");
+    let content = read_or_create_file(file_name)?;
+
     println!("The contents of the file are: {content:?}");
+
+    Ok(())
+}
+
+fn read_or_create_file(path: &str) -> io::Result<String> {
+    match fs::read_to_string(path) {
+        Ok(content) => Ok(content),
+        Err(error) if error.kind() == ErrorKind::NotFound => {
+            fs::write(path, "")?;
+            Ok(String::new())
+        }
+        Err(error) => Err(error),
+    }
 }
