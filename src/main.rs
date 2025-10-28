@@ -34,3 +34,24 @@ fn read_or_create_file(path: &str) -> io::Result<String> {
         Err(error) => Err(error),
     }
 }
+
+fn show_file_info(path: &str) -> io::Result {
+    let metadata = fs::metadata(path)?;
+
+    println!("File: {}", path);
+    println!("Size: {} bytes", metadata.len());
+    println!("Read-only: {}", metadata.permissions().readonly());
+    println!("Modified: {:?}", metadata.modified()?);
+
+    Ok(())
+}
+
+fn search_and_replace(path: &str, search: &str, replace: &str) -> io::Result {
+    let content = fs::read_to_string(path)?;
+    let new_content = content.replace(search, replace);
+    
+    fs::write(path, new_content)?;
+    println!("Replaced all occurrences of {} with {}", search, replace);
+    
+    Ok(())
+}
