@@ -1,0 +1,60 @@
+   0.244425800s  INFO prepare_target{force=false package_id=cat-clone v0.1.0 (\\wsl.localhost\Ubuntu\home\dragon\cat-clone) target="cat-clone"}: cargo::core::compiler::fingerprint: fingerprint error for cat-clone v0.1.0 (\\wsl.localhost\Ubuntu\home\dragon\cat-clone)/Check { test: false }/TargetInner { name: "cat-clone", doc: true, ..: with_path("\\\\wsl.localhost\\Ubuntu\\home\\dragon\\cat-clone\\src\\main.rs", Edition2024) }
+   0.244558000s  INFO prepare_target{force=false package_id=cat-clone v0.1.0 (\\wsl.localhost\Ubuntu\home\dragon\cat-clone) target="cat-clone"}: cargo::core::compiler::fingerprint:     err: failed to read `\\wsl.localhost\Ubuntu\home\dragon\cat-clone\target\debug\.fingerprint\cat-clone-5beb1b6008aa91f3\bin-cat-clone`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_libgit2_prerelease
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: git_midx_writer_dump
+  17: git_filter_source_repo
+  18: git_midx_writer_dump
+  19: BaseThreadInitThunk
+  20: RtlUserThreadStart
+   0.276771500s  INFO prepare_target{force=false package_id=cat-clone v0.1.0 (\\wsl.localhost\Ubuntu\home\dragon\cat-clone) target="cat-clone"}: cargo::core::compiler::fingerprint: fingerprint error for cat-clone v0.1.0 (\\wsl.localhost\Ubuntu\home\dragon\cat-clone)/Check { test: true }/TargetInner { name: "cat-clone", doc: true, ..: with_path("\\\\wsl.localhost\\Ubuntu\\home\\dragon\\cat-clone\\src\\main.rs", Edition2024) }
+   0.276800300s  INFO prepare_target{force=false package_id=cat-clone v0.1.0 (\\wsl.localhost\Ubuntu\home\dragon\cat-clone) target="cat-clone"}: cargo::core::compiler::fingerprint:     err: failed to read `\\wsl.localhost\Ubuntu\home\dragon\cat-clone\target\debug\.fingerprint\cat-clone-bdb363a1dd946dd1\test-bin-cat-clone`
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Stack backtrace:
+   0: git_midx_writer_dump
+   1: git_midx_writer_dump
+   2: git_midx_writer_dump
+   3: git_midx_writer_dump
+   4: git_filter_source_repo
+   5: git_filter_source_repo
+   6: git_filter_source_repo
+   7: git_filter_source_repo
+   8: git_filter_source_repo
+   9: git_filter_source_repo
+  10: git_filter_source_repo
+  11: git_libgit2_prerelease
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: git_midx_writer_dump
+  17: git_filter_source_repo
+  18: git_midx_writer_dump
+  19: BaseThreadInitThunk
+  20: RtlUserThreadStart
+    Checking cat-clone v0.1.0 (\\wsl.localhost\Ubuntu\home\dragon\cat-clone)
+error: could not compile `cat-clone` (bin "cat-clone") due to 3 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `cat-clone` (bin "cat-clone" test) due to 3 previous errors

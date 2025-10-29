@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize}
 use std::env;
 use std::fs;
-use std::io::{self, ErrorKind};
+use std::io::{self, ErrorKind, Write};
 
 #[derive(Serialize, Deserialize)]
 struct Config {
@@ -12,24 +12,68 @@ struct Config {
 
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
-    let binding = String::from("file.txt");
-    let file_name = args.get(1).unwrap_or(&binding);
 
-    let mut content = read_or_create_file(file_name)?;
-
-    println!("The contents of the file are: {content:?}");
-
-    println!("Enter text to append(or leave empty to skip)");
-    let mut input: String = String::new();
-    io::stdin().read_line(&mut input)?;
-
-    if !input.trim().is_empty() {
-        content.push_str(&input);
-        fs::write("file_name", content)?;
-        println!("Content saved!");
+    if args.len() < 2 {
+        print_usage();
+        return Ok(());
     }
 
+    match args[1].as_str() {
+        "read" => {
+            let file_name = args.get(2).map(|s| s.as_str()).unwrap_or("file.txt");
+            let content = read_or_create_file(file_name)?;
+            println!("Content of the file is {}", content);
+        }
+        "write" => {
+            let file_name = args.get(2).map(|s| s.as_str()).unwrap_or("file.txt");
+            println!("Input the text to be written:");
+            let mut input: String = String::new();
+            io::stdin().read_line(&mut input)?;
+            fs::write(file_name, input)?;
+            println!("Content written to {}", file_name);
+        }
+        "show_file_info" {
+
+        }
+        "search_and_replace" {
+
+        }
+        "encrypt" {
+            let file_name = args.get(2).map(|s| s.as_str()).unwrap_or("file.txt");
+            println!("Enter the key");
+            let mut key = String::new();
+            io::stdin().read_line(&mut key)?;
+            let key = key.trim();
+
+            encrypt_file(file_name, key);
+            println!("{} was successfully encrypted");
+        }
+        "decrypt" {
+
+        }
+        "read_with_line_number" {
+
+        }
+        "file_stat" {
+
+        }
+
+    }
+
+
     Ok(())
+}
+
+fn print_usage() {
+    println!("Usage:");
+    println!("  cargo run read [filename]                   - Read a file");
+    println!("  cargo run write [filename]                  - Write to a file");
+    println!("  cargo run show_file_info [filename]         - Print the Metadata of the file");
+    println!("  cargo run search_and_replace [filename]     - Search and Replaces a string from the file");
+    println!("  cargo run encrypt [filename]                - Encrypt a file");
+    println!("  cargo run decrypt [filename]                - Decrypt a file");
+    println!("  cargo run read_with_line_number [filename]  - Read a file with line number");
+    println!("  cargo run file_stats [filename]             - Prints the statistics of the file");
 }
 
 fn read_or_create_file(path: &str) -> io::Result<String> {
@@ -62,6 +106,23 @@ fn search_and_replace(path: &str, search: &str, replace: &str) -> io::Result {
     println!("Replaced all occurrences of {} with {}", search, replace);
     
     Ok(())
+}
+
+fn encrypt_file(file_name: &str, key: &str ) -> io::Result<()> {
+    let content = fs::read(file_name)?;
+    let encrypted = xor_cipher(&content, key.as_bytes());
+
+    let encrypted_path = format!("{}.enc", file_name);
+    fs::write(&encrypted_path, encrypted);
+
+    println!("Delete original file? (y/n):");
+    let mut response = String::new();
+    io::stdin().read_line(&mut response)?;
+
+    if response.trim().eq_ignore_ascii_case("y") {
+        fs::remove_file(file_name)?;
+        println!("Original file deleted");
+    }
 }
 
 fn read_with_line_numbers(path: &str) -> io::Result<()> {
